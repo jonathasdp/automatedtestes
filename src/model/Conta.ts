@@ -10,6 +10,9 @@ export class Conta {
     }
 
     public sacar(valor: number): void {
+        if (valor <= 0) {
+            throw new Error("Valor não pode ser igual ou menor que zero.");
+        }
         this._saldo -= valor;
     }
     public depositar(valor: number) {
