@@ -12,4 +12,7 @@ export class Conta {
     public sacar(valor: number): void {
         this._saldo -= valor;
     }
+    public depositar(valor: number) {
+        this._saldo += valor;
+    }
 }
