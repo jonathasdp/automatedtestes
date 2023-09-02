@@ -16,6 +16,9 @@ export class Conta {
         this._saldo -= valor;
     }
     public depositar(valor: number) {
+        if (valor <= 0) {
+            throw new Error("Valor não pode ser igual ou menor que zero.");
+        }
         this._saldo += valor;
     }
 }
