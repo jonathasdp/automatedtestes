@@ -43,3 +43,11 @@ describe("Conta", () => {
         expect(() => conta.sacar(-5.0)).toThrow("Valor não pode ser igual ou menor que zero.");
     })
 })
+
+
+describe("Conta", () => {
+    test("sacar valor acima do saldo", async () => {
+        const conta = new Conta("123456", 199.0);
+        expect(() => { conta.sacar(200.0); }).toThrow("Saques devem possuir saldo.");
+      });
+})

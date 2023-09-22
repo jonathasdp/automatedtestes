@@ -13,6 +13,10 @@ export class Conta {
 
     public sacar(valor: number): void {
         this.validarValor(valor);
+
+        if ((this._saldo - valor) < 0)
+            throw new Error("Saques devem possuir saldo.");
+
         this._saldo -= valor;
     }
 
