@@ -8,7 +8,7 @@ export class NumeroConta {
             throw new Error("Número de conta inválido.");
         }
     }
-    
+
     PossuiSeisDigitosNumericos(numero: string): boolean {
         const rgx: RegExp = /^\d{6}$/;
         return rgx.test(numero)
