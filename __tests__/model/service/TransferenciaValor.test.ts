@@ -7,9 +7,10 @@ describe("Transferência Valor", () => {
         const contaDestino = new Conta("789012", 1000.0);
 
         const transferenciaValor = new TransferenciaValor();
-        transferenciaValor.transferir(contaOrigem, contaDestino, 100);
+        const recibo = transferenciaValor.transferir(contaOrigem, contaDestino, 100);
 
         expect(contaOrigem.saldo).toBe(900);
         expect(contaDestino.saldo).toBe(1100);
+        expect(recibo.codigo.length).toBe(6);
     })
 }); 
