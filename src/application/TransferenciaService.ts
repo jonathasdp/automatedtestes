@@ -11,8 +11,8 @@ export class TransferenciaServico {
     }
 
     public transferir(dto: TransferenciaDTO): string {
-        const contaOrigem = this._repositorio.buscar(dto.contaOrigem)!;
-        const contaDestino = this._repositorio.buscar(dto.contaDestino)!;
+        const contaOrigem = this._repositorio.buscar(dto.contaOrigem);
+        const contaDestino = this._repositorio.buscar(dto.contaDestino);
 
         if (contaOrigem === undefined)
             throw new Error("Conta de origem não encontrada.");
