@@ -1,16 +1,12 @@
-import { TransferenciaServico } from "../../src/application/TransferenciaService";
+import { MemoriaContaRepositorio } from "../fake/MemoriaContaRepositorio";
 import { TransferenciaDTO } from "../../src/application/dto/TransferenciaDTO";
 import { Conta } from "../../src/model/Conta";
-import { MemoriaContaRepositorio } from "../fake/MemoriaContaRepositorio";
+import { TransferenciaServico } from "../../src/application/TransferenciaService";
 
 describe("Transferência serviço", () => {
 
     test("Transferência com sucesso.", () => {
-        const repositorio = new MemoriaContaRepositorio();
-        const contaOrigem = new Conta("123456", 5000);
-        const contaDestino = new Conta("654321", 5000);
-        repositorio.adicionar(contaOrigem);
-        repositorio.adicionar(contaDestino);
+        const repositorio = criarContaRepositorio();
 
         const transferenciaServico = new TransferenciaServico(repositorio);
 
@@ -24,32 +20,32 @@ describe("Transferência serviço", () => {
     });
 
     test("Conta de origem não encontrada.", () => {
-        const repositorio = new MemoriaContaRepositorio();
-        const contaOrigem = new Conta("123456", 5000);
-        const contaDestino = new Conta("654321", 5000);
-        repositorio.adicionar(contaOrigem);
-        repositorio.adicionar(contaDestino);
+        const repositorio = criarContaRepositorio();
 
         const transferenciaServico = new TransferenciaServico(repositorio);
 
         const dto = new TransferenciaDTO("111111", "654321", 100.0);
 
-        expect(() => { transferenciaServico.transferir(dto) }).toThrow("Conta de origem não encontrada.");
-
+        expect(() => { transferenciaServico.transferir(dto); }).toThrow("Conta de origem não encontrada.");
     });
 
     test("Conta de destino não encontrada.", () => {
-        const repositorio = new MemoriaContaRepositorio();
-        const contaOrigem = new Conta("123456", 5000);
-        const contaDestino = new Conta("654321", 5000);
-        repositorio.adicionar(contaOrigem);
-        repositorio.adicionar(contaDestino);
+        const repositorio = criarContaRepositorio();
 
         const transferenciaServico = new TransferenciaServico(repositorio);
 
         const dto = new TransferenciaDTO("123456", "222222", 100.0);
 
-        expect(() => { transferenciaServico.transferir(dto) }).toThrow("Conta de destino não encontrada.");
-
+        expect(() => { transferenciaServico.transferir(dto); }).toThrow("Conta de destino não encontrada.");
     });
+
 });
+
+function criarContaRepositorio() {
+    const repositorio = new MemoriaContaRepositorio();
+    const contaOrigem = new Conta("123456", 5000);
+    const contaDestino = new Conta("654321", 5000);
+    repositorio.adicionar(contaOrigem);
+    repositorio.adicionar(contaDestino);
+    return repositorio;
+}
