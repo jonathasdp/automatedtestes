@@ -131,3 +131,9 @@ dist
 
 # SonarQube
 .scannerwork
+# stryker temp files
+.stryker-tmp
+
+
+# Stryker
+reports
