@@ -1,7 +1,7 @@
-import { Repositorio } from "../../__tests__/model/contract/Repositorio";
 import { Conta } from "../model/Conta";
-import { TransferenciaValor } from "../model/service/TransferenciaValor";
 import { TransferenciaDTO } from "./dto/TransferenciaDTO";
+import { TransferenciaValor } from "../model/service/TransferenciaValor";
+import { Repositorio } from "../../__tests__/model/contract/Repositorio";
 
 export class TransferenciaServico {
     private _repositorio: Repositorio<Conta, string>;
@@ -10,15 +10,15 @@ export class TransferenciaServico {
         this._repositorio = repositorio;
     }
 
-    public transferir(dto: TransferenciaDTO): string {
-        const contaOrigem = this._repositorio.buscar(dto.contaOrigem);
-        const contaDestino = this._repositorio.buscar(dto.contaDestino);
+    public async transferir(dto: TransferenciaDTO): Promise<string> {
+        const contaOrigem = await this._repositorio.buscar(dto.contaOrigem);
+        const contaDestino = await this._repositorio.buscar(dto.contaDestino);
 
         if (contaOrigem === undefined)
-            throw new Error("Conta de origem não encontrada.");
+            throw Error("conta de origem não encontrada");
 
         if (contaDestino === undefined)
-            throw new Error("Conta de destino não encontrada.");
+            throw Error("conta de destino não encontrada");
 
         const transferencia = new TransferenciaValor();
         const recibo = transferencia.transferir(contaOrigem, contaDestino, dto.valor);

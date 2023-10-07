@@ -5,38 +5,39 @@ import { TransferenciaServico } from "../../src/application/TransferenciaService
 
 describe("Transferência serviço", () => {
 
-    test("Transferência com sucesso.", () => {
+    test("transferir com sucesso", async () => {
         const repositorio = criarContaRepositorio();
 
         const transferenciaServico = new TransferenciaServico(repositorio);
 
         const dto = new TransferenciaDTO("123456", "654321", 100.0);
 
-        const recibo = transferenciaServico.transferir(dto);
-
-        expect(repositorio.buscar("123456")!.saldo).toBe(4900.0);
-        expect(repositorio.buscar("654321")!.saldo).toBe(5100.0);
+        const recibo = await transferenciaServico.transferir(dto);
+        const contaOrigemRepo = await repositorio.buscar("123456");
+        const contaDestinoRepo = await repositorio.buscar("654321");
+        expect(contaOrigemRepo!.saldo).toBe(4900.0);
+        expect(contaDestinoRepo!.saldo).toBe(5100.0);
         expect(recibo.length).toBe(6);
     });
 
-    test("Conta de origem não encontrada.", () => {
+    test("conta de origem não encontrada", async () => {
         const repositorio = criarContaRepositorio();
 
         const transferenciaServico = new TransferenciaServico(repositorio);
 
         const dto = new TransferenciaDTO("111111", "654321", 100.0);
 
-        expect(() => { transferenciaServico.transferir(dto); }).toThrow("Conta de origem não encontrada.");
+        await expect(transferenciaServico.transferir(dto)).rejects.toEqual(Error("conta de origem não encontrada"));
     });
 
-    test("Conta de destino não encontrada.", () => {
+    test("conta de destino não encontrada", async () => {
         const repositorio = criarContaRepositorio();
 
         const transferenciaServico = new TransferenciaServico(repositorio);
 
         const dto = new TransferenciaDTO("123456", "222222", 100.0);
 
-        expect(() => { transferenciaServico.transferir(dto); }).toThrow("Conta de destino não encontrada.");
+        await expect(transferenciaServico.transferir(dto)).rejects.toEqual(Error("conta de destino não encontrada"));
     });
 
 });
